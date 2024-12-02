@@ -1,12 +1,12 @@
-name: ci for achievement service
+name: ci for url shortener service
 
 on:
   push:
     branches:
-      - url-shortener-BJS2-42662
+      - main
   pull_request:
     branches:
-      - url-shortener-BJS2-42662
+      - main
 
 jobs:
   build_test_and_checkstyle:
