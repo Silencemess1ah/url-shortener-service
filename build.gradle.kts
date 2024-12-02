@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.0.6"
     id("io.spring.dependency-management") version "1.1.0"
+    id("checkstyle")
 }
 
 group = "faang.school"
@@ -58,11 +59,26 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
+checkstyle {
+    toolVersion = "10.20.0"
+    configFile = file("${rootDir}/src/main/resources/checkstyle/checkstyle.xml")
+}
+
+tasks.withType<Checkstyle>().configureEach {
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+    }
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-val test by tasks.getting(Test::class) { testLogging.showStandardStreams = true }
+val test by tasks.getting(Test::class) {
+    testLogging.showStandardStreams = true
+    maxParallelForks = 1
+}
 
 tasks.bootJar {
     archiveFileName.set("service.jar")
